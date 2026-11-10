@@ -1,0 +1,30 @@
+name: Check
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 8 * * 6" # 每周六巡逻一次外链
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: pre-commit
+        run: |
+          pip install pre-commit
+          pre-commit run --all-files
+      - name: htmlhint
+        run: npx --yes htmlhint "**/*.html"
+
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: anishathalye/proof-html@v2
+        with:
+          directory: .
+          enforce_https: false

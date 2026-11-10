@@ -1,0 +1,18 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+        args: ["--maxkb=32768"]
+      - id: detect-private-key
+
+  - repo: local
+    hooks:
+      - id: htmlhint
+        name: htmlhint
+        entry: htmlhint
+        language: node
+        additional_dependencies: ["htmlhint@1.1.4"]
+        types: [html]
